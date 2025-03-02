@@ -5,7 +5,6 @@
     <title>Добре си Наско на село</title>
     <style>
         body {
-            background-color: #f0f0f0;
             font-family: 'Comic Sans MS', cursive, sans-serif;
             display: flex;
             justify-content: center;
@@ -13,27 +12,68 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            position: relative;
         }
+        /* Create a div that will hold the background image with opacity */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('cacao-beach-club.jpg'); /* Path to your background image */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            opacity: 0.5; /* Change opacity value to get the desired effect */
+            z-index: -1; /* Make sure it stays behind all content */
+        }
+
         #nascoText {
             font-size: 48px;
             font-weight: bold;
             position: absolute;
             color: #ff5722;
             transition: all 0.5s ease-in-out;
+            z-index: 2;
+            pointer-events: none;
+        }
+        #audioContainer {
+            position: absolute;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
 
+<!-- Background Div with Opacity -->
+<div class="background"></div>
+
 <div id="nascoText">Добре си Наско на село</div>
 
+<div id="audioContainer">
+    <!-- Add your MP3 file below -->
+    <audio id="nascoAudio" controls autoplay>
+        <source src="bedroom2014.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+
+
 <script>
+
+    
+    let audio;
+
     function randomColor() {
-        return '#' + Math.floor(Math.random()*16777215).toString(16);
+        return '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
     function moveText() {
         const text = document.getElementById('nascoText');
+        const audioContainer = document.getElementById('audioContainer');
+
         const maxX = window.innerWidth - text.clientWidth;
         const maxY = window.innerHeight - text.clientHeight;
 
@@ -43,12 +83,42 @@
         text.style.left = randomX + 'px';
         text.style.top = randomY + 'px';
         text.style.color = randomColor();
+
+        // Keep the audio container centered
+        audioContainer.style.left = (window.innerWidth / 2 - 280) + 'px';
+        audioContainer.style.top = (window.innerHeight / 2 - 157) + 'px';
     }
 
-    setInterval(moveText, 1000); // Moves every second
-
-    // Initial move to avoid static boring start
+    setInterval(moveText, 1000);
     moveText();
+
+    // Start audio after 1 second
+    // setTimeout(function() {
+    //     audio = document.getElementById('nascoAudio');
+    //      audio.play(); // Start audio
+    //     // // Start audio
+    //     console.log('Do something!');
+    // }, 5000);
+
+    function tryPlayAudio() {
+    const audio = document.getElementById('nascoAudio');
+    // audio.muted = true;
+    if (audio.paused) {
+        
+        audio.play().then(() => {
+            console.log('Audio started!');
+        }).catch((err) => {
+            console.warn('Audio play failed:', err);
+        });
+    }
+}
+
+document.body.addEventListener('click', tryPlayAudio);
+document.body.addEventListener('touchstart', tryPlayAudio);
+const myTimeout = setTimeout(tryPlayAudio, 5000);
+
+
+
 </script>
 
 </body>
