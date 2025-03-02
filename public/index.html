@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
-    <title>My Static Page</title>
+    <meta charset="UTF-8">
+    <title>Добре си Наско на село</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        #nascoText {
+            font-size: 48px;
+            font-weight: bold;
+            position: absolute;
+            color: #ff5722;
+            transition: all 0.5s ease-in-out;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello from Node.js!</h1>
+
+<div id="nascoText">Добре си Наско на село</div>
+
+<script>
+    function randomColor() {
+        return '#' + Math.floor(Math.random()*16777215).toString(16);
+    }
+
+    function moveText() {
+        const text = document.getElementById('nascoText');
+        const maxX = window.innerWidth - text.clientWidth;
+        const maxY = window.innerHeight - text.clientHeight;
+
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        text.style.left = randomX + 'px';
+        text.style.top = randomY + 'px';
+        text.style.color = randomColor();
+    }
+
+    setInterval(moveText, 1000); // Moves every second
+
+    // Initial move to avoid static boring start
+    moveText();
+</script>
+
 </body>
 </html>
-
